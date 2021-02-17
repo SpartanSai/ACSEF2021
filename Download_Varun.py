@@ -4,7 +4,7 @@ import shutil # to save it locally
 import time # to sleep the thread
 import os
 
-for x in range(0, 100):
+for x in range(138, 150):
     time.sleep(65.0)
     # Set up the image URL and filename
     image_url = "https://dcc.ussgroup.co.uk/images/dutmc_35.jpg"
