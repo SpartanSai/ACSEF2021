@@ -7,7 +7,7 @@ import os
 for x in range(1, 100):
     time.sleep(65.0)
     # Set up the image URL and filename
-    image_url = "https://dcc.ussgroup.co.uk/images/dutmc_35.jpg"
+    image_url = "http://www.durham.gov.uk/article/23827/A690-Crossgate-Peth"
     filename = image_url.split("/")[-1]
     filename = filename.split(".")[0]+"_{}.jpg".format(x)
 
