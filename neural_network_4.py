@@ -3,73 +3,65 @@
 """
 Created on Thu Feb 18 19:29:33 2021
 
-@author: saimonish
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Feb 17 21:47:40 2021
-
-@author: varun
+@author: saidivyesh, varun
 """
 
 import numpy as np
 import math
 
 class NeuralNetwork:
+    # L = # of layers
+    # sizes = []*L (number of neurons in each layer)
+    # network = []*L (network[i] is an array with all of the neuron 
+    #                 values)
+    # weights = []*(L-1) (weights[i] is a matrix with all of the
+    #                     weights between each pair of neurons
+    #                     in each layer)
+    # biases = []*(L-1) (biases[i] is an array with all of the 
+    #                    biases of the (i+1)th layer)
+    # error = []*L (basically network but with all of the errors)
+    # expected_out = [] (array with the expected output of the last layer)
+    # delta = []*L (basically error but with the derivatives of the errors)
+    
 
+    def __init__(self, L, sizes, expected_out, inp):
+        self.L = L
+        self.sizes = sizes
+        self.expected_out = expected_out
+        self.network = []*L
+        self.error = []*L
+        self.delta = []*L
+        for i in range(0, L-1):
+            self.weights[i] = [[]*sizes[i+1]]*sizes[i]
+            self.biases[i] = []*sizes[i+1]
+            self.network[i] = []*sizes[i]
+        self.network[L-1] = []*sizes[L-1]
+        self.network[0] = inp
+        
+    def forward(self):
+        for l in range(1, self.L):
+            for i in range(0, self.sizes[l]):
+                self.network[l][i] = self.biases[l-1][i];
+                for j in range(0, self.sizes[l-1]):
+                    self.network[l][i] += self.weights[l-1][j][i] * self.network[l-1][j]
+#                for i in range(0, self.sizes[l]):
+#                    self.network[l][i] = (1/(1 + np.exp(-self.network[l][i])))
 
-    def __init__(self, a, b, c, arr, weight1, weight2, bias1, bias2):
-        self.n_1 = a
-        self.n_2 = b
-        self.n_3 = c
-        
-        self.inp = arr
-        self.hide = []*b
-        self.out = []*c
-        
-        self.w_1 = weight1
-        self.w_2 = weight2
-        
-        self.b_1 = bias1
-        self.b_2 = bias2
-        
-    def forward(self, n, m, arr, weights, biases):
-        output = [0]*m
-        for i in range(0, m):
-            output[i] = biases[i];
-            for j in range(0, n):
-                output[i] += weights[i][j] * arr[j]
-        #for i in range(0, len(output)):
-        #    output[i] = (1/(1 + np.exp(-output[i]))) OR sigmoid(output[i])
-        return output
-        
+    def derivative(output):
+        return (output) * (1 - output)
     
-    def run(self):
-        self.hide = self.forward(self.n_1, self.n_2, self.inp, self.w_1, self.b_1)
-        print(self.hide)
-        self.out = self.forward(self.n_2, self.n_3, self.hide, self.w_2, self.b_2)
-        print(self.out)
-        
-        
-    def cost(self, arr):
-        costsum =0
-        for i in range(0, n_3):
-            costsum += (arr[i]-self.out[i])**2
-        return costsum
-    
-    
-    def backpropogation(self):
-        
-        
-        
-        
-        
-        ## application of the chain rule to find derivative(slope) of the loss function with respect to weight2(w_2_ and weight1(w_1)
-        #d_w_2 = np.dot(self.layer1.T, (2*(self.y - self.output) * (1 / (1 + math.exp(-self.output))*(1-(1 / (1 + math.exp(-self.output)))))))
-        #d_w_1 = np.dot(self.inp.T,  (np.dot(2*(self.y - self.output) * (1 / (1 + math.exp(-self.output))*(1-(1 / (1 + math.exp(-self.output))))), self.w_2.T) * (1 / (1 + math.exp(-self.layer1))*(1-(1 / (1 + math.exp(-self.layer1)))))))
-        #self.w_1 += d_w_1
-        #self.w_2 += d_w_2
+    def backward(self):
+        for l in reversed(range(0, self.L)):
+            if (l == self.L - 1):
+                for i in range(0, self.sizes[l]):
+                    self.error[l][i] = (self.expected_out[i] - self.network[l][i])
+            else:
+                for i in range(0, self.sizes[l]):
+                    for j in range (0, self.sizes[l+1]):
+                        self.error[l][i] += self.weights[l][i][j] * self.delta[l+1][j]
+            for i in range(0, self.sizes[l]):
+                self.delta[l][i] = self.error[l][i] * self.derivative(self.network[l][i])
+   
         
 n_1 = 4
 n_2 = 3
