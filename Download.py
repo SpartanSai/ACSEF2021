@@ -3,7 +3,8 @@ import requests # to get image from the web
 import shutil # to save it locally
 import time # to sleep the thread
 import os
-from subprocess import call
+#from subprocess import call
+from PIL import Image
 
 for x in range(70, 150):
     # Set up the image URL and filename
@@ -13,8 +14,8 @@ for x in range(70, 150):
 
     # Open the url image, set stream to True, this will return the stream content.
     r = requests.get(image_url, stream = True)
-    stringpath = "/Users/saimonish/IntelliJ_workspace/ACSEF2021/Images/{}".format(filename)
-    #stringpath = "C:/Users/varun/Python/ACSEF_2021/Images/{}".format(filename)
+    #stringpath = "/Users/saimonish/IntelliJ_workspace/ACSEF2021/Images/{}".format(filename)
+    stringpath = "C:/Users/varun/Python/ACSEF_2021/Images/{}".format(filename)
 
     path = os.path.join(stringpath)
     
@@ -34,9 +35,10 @@ for x in range(70, 150):
         print('Image Couldn\'t be retreived')
 
     
-    call(["open", stringpath])
+    #call(["open", stringpath])
+    img  = Image.open(path)  
+    img.show()
     
-    userinput = input("How many cars are in the picture?")
-    print(userinput)
+    # userinput = input("How many cars are in the picture?")
     
-    time.sleep(65.0)
+    time.sleep(60.0)

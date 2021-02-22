@@ -61,19 +61,6 @@ class NeuralNetwork:
                         self.error[l][i] += self.weights[l][i][j] * self.delta[l+1][j]
             for i in range(0, self.sizes[l]):
                 self.delta[l][i] = self.error[l][i] * self.derivative(self.network[l][i])
-    
-    #self.network is just the network of neurons
-    #row = row of input
-    #0.25 = learning rate (we will run in batches)           
-    def update_weights(self, r, learningrate):
-        for i in range(len(self.network)):
-            inputs = r[0:-1]
-            if i!=0:
-                inputs = [self.network[l][i] for neuron in self.network[i-1]]
-            for j in self.network[i]:
-                
-                
-   
         
 n_1 = 4
 n_2 = 3
