@@ -8,7 +8,7 @@ from PIL import Image
 
 for x in range(70, 150):
     # Set up the image URL and filename
-    image_url = "http://www.durham.gov.uk/article/6140/Gilesgate"
+    image_url = "https://dcc.ussgroup.co.uk/images/dutmc_09.jpg"
     filename = image_url.split("/")[-1]
     filename = filename.split(".")[0]+"_{}.jpg".format(x)
 
@@ -36,9 +36,7 @@ for x in range(70, 150):
 
     
     #call(["open", stringpath])
-    img  = Image.open(path)  
-    img.show()
     
     # userinput = input("How many cars are in the picture?")
     
-    time.sleep(60.0)
+    time.sleep(61.0)
