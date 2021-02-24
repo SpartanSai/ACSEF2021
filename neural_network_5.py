@@ -20,14 +20,12 @@ class NeuralNetwork:
     # biases = []*(L-1) (biases[i] is an array with all of the
     #                    biases of the (i+1)th layer)
     # error = []*L (basically network but with all of the errors)
-    # expected_out = [] (array with the expected output of the last layer)
     # delta = []*L (basically error but with the derivatives of the errors)
 
 
-    def __init__(self, L, sizes, expected_out, inp):
+    def __init__(self, L, sizes, inp):
         self.L = L
         self.sizes = sizes
-        self.expected_out = expected_out
         self.network = []*L
         self.error = []*L
         self.delta = []*L
@@ -46,13 +44,13 @@ class NeuralNetwork:
                     self.network[l][i] += self.weights[l-1][j][i] * self.network[l-1][j]
     #                for i in range(0, self.sizes[l]):
     #                    self.network[l][i] = (1/(1 + np.exp(-self.network[l][i])))
+        return self.network[L-1]
 
     def derivative(output):
         return (output) * (1 - output)
 
-    # DO THE BIASES
-    def backward(self):
-        for l in reversed(range(0, self.L)):
+    def backward(self, expected_out):
+        for l in reversed(range(1, self.L)):
             if (l == self.L - 1):
                 for i in range(0, self.sizes[l]):
                     self.error[l][i] = (self.expected_out[i] - self.network[l][i])
@@ -60,18 +58,30 @@ class NeuralNetwork:
                 for i in range(0, self.sizes[l]):
                     for j in range (0, self.sizes[l+1]):
                         self.error[l][i] += self.weights[l][i][j] * self.delta[l+1][j]
+                    self.error[l][i] += self.biases[l-1][i]
             for i in range(0, self.sizes[l]):
                 self.delta[l][i] = self.error[l][i] * self.derivative(self.network[l][i])
 
     # 0.25 = learning rate (we will run in batches)
-    # DO THE BIASES
     def update_weights(self, learning_rate):
         for l in range(1, self.L):
             for i in range(0, self.sizes[l]):
                 for j in range(self.sizes[l-1]):
                     self.weights[l-1][j][i] += learning_rate * self.network[l-1][j] * self.delta[l][i]
-                
-
+                self.biases[l-1][i] += learning_rate * self.delta[l][i]
+    
+    # collect all the data, split into train and test
+    # 
+    def train_network(self, train, learning_rate, epochs, expected)
+        for epoch in range(0, epochs):
+            cost_sum = 0
+            for inp in train:
+                out = forward()
+                expected_out = [0 for i in range(expected)]
+                # expected_out[inp[-1]] = 1
+                cost_sum += sum([(expected_out[i]-out[i])**2 for i in range(len(expected))])
+                backward(expected_out)
+                update_weights(learning_rate)
 
 n_1 = 4
 n_2 = 3
