@@ -44,7 +44,7 @@ class NeuralNetwork:
                     self.network[l][i] += self.weights[l-1][j][i] * self.network[l-1][j]
     #                for i in range(0, self.sizes[l]):
     #                    self.network[l][i] = (1/(1 + np.exp(-self.network[l][i])))
-        return self.network[L-1]
+        return self.network[self.L - 1]
 
     def derivative(output):
         return (output) * (1 - output)
@@ -72,16 +72,16 @@ class NeuralNetwork:
     
     # collect all the data, split into train and test
     # 
-    def train_network(self, train, learning_rate, epochs, expected)
+    def train_network(self, train, learning_rate, epochs, expected):
         for epoch in range(0, epochs):
             cost_sum = 0
             for inp in train:
-                out = forward()
+                out = self.forward()
                 expected_out = [0 for i in range(expected)]
                 # expected_out[inp[-1]] = 1
                 cost_sum += sum([(expected_out[i]-out[i])**2 for i in range(len(expected))])
-                backward(expected_out)
-                update_weights(learning_rate)
+                self.backward(expected_out)
+                self.update_weights(learning_rate)
 
 n_1 = 4
 n_2 = 3
