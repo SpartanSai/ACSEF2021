@@ -6,7 +6,7 @@ import os
 #from subprocess import call
 from PIL import Image
 
-for x in range(70, 150):
+for x in range(150, 210):
     # Set up the image URL and filename
     image_url = "https://dcc.ussgroup.co.uk/images/dutmc_09.jpg"
     filename = image_url.split("/")[-1]

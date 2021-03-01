@@ -96,7 +96,3 @@ b_2 = [0, 0, 0, 0]
 
 nn = NeuralNetwork(n_1, n_2, n_3, inp, w_1, w_2, b_1, b_2)
 nn.run()
-
-
-
-
