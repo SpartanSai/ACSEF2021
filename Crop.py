@@ -2,9 +2,9 @@ from PIL import Image, ImageOps
 import numpy as np
 
 
-for number in range(183,250):
-    #image = Image.open(r"/Users/saimonish/IntelliJ_workspace/ACSEF2021/Images/dutmc_09_{}.jpg".format(number)) 
-    image = Image.open(r"C:/Users/varun/Python/ACSEF_2021/Images/dutmc_09_{}.jpg".format(number)) 
+for number in range(250,301):
+    image = Image.open(r"/Users/saimonish/IntelliJ_workspace/ACSEF2021/Images/dutmc_09_{}.jpg".format(number)) 
+    #image = Image.open(r"C:/Users/varun/Python/ACSEF_2021/Images/dutmc_09_{}.jpg".format(number)) 
 
     #target will be 870x484 pixels
     left = 734
@@ -15,8 +15,8 @@ for number in range(183,250):
     image1 = image.crop((left,upper,right,lower))
     #image1 = ImageOps.grayscale(image1)
     image1 = image1.convert("LA")
-    # image1.save('/Users/saimonish/IntelliJ_workspace/ACSEF2021/CroppedImages/dutmc_09_{}_cropped.png'.format(number), "PNG")
-    image1.save("C:/Users/varun/Python/ACSEF_2021/CroppedImages/dutmc_09_{}_cropped.png".format(number), "PNG")
+    image1.save('/Users/saimonish/IntelliJ_workspace/ACSEF2021/CroppedImages/dutmc_09_{}_cropped.png'.format(number), "PNG")
+    #image1.save("C:/Users/varun/Python/ACSEF_2021/CroppedImages/dutmc_09_{}_cropped.png".format(number), "PNG")
     print("Save Successful!")
         
 '''
