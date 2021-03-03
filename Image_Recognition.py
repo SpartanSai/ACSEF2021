@@ -26,14 +26,16 @@ class NeuralNetwork:
     def __init__(self, L, sizes):
         self.L = L
         self.sizes = sizes
-        self.network = []*L
-        self.error = []*L
-        self.delta = []*L
+        self.network = [0]*L
+        self.error = [0]*L
+        self.delta = [0]*L
+        self.weights = [0]*L
+        self.biases = [0]*L
         for i in range(0, L-1):
-            self.weights[i] = [[]*sizes[i+1]]*sizes[i]
-            self.biases[i] = []*sizes[i+1]
-            self.network[i] = []*sizes[i]
-        self.network[L-1] = []*sizes[L-1]
+            self.weights[i] = [[0]*sizes[i+1]]*sizes[i]
+            self.biases[i] = [0]*sizes[i+1]
+            self.network[i] = [0]*sizes[i]
+        self.network[L-1] = [0]*sizes[L-1]
 
     def forward(self, inp):
         self.network[0] = inp
@@ -75,29 +77,29 @@ class NeuralNetwork:
             cost_sum = 0
             for inp in train:
                 out = self.forward(inp)
-                expected_out = [0 for i in range(expected)]
+                expected_out = [0 for i in range(0, len(expected))]
                 expected_out[inp[-1]] = 1
-                cost_sum += sum([(expected_out[i]-out[i])**2 for i in range(len(expected))])
+                cost_sum += sum([(expected_out[i]-out[i])**2 for i in range(0, len(expected_out))])
                 self.backward(expected_out)
                 self.update_weights(learning_rate)
 
-data = []*148
-
+data = []
 for i in range(1, 183):
     image = Image.open("C:/Users/varun/Python/ACSEF_2021/CroppedImages/dutmc_09_1_cropped.png")
     pixel_values = list(image.getdata())
-    real_pixel_values = []*(870*484)
-
+    real_pixel_values = []*(412368)
     for value in pixel_values:
         real_pixel_values.append(value[0])
-
     data.append(real_pixel_values)
     
 L = 4
-sizes = [870 * 484, 10, 20, 10]
+sizes = [412368, 10, 20, 10]
 nn = NeuralNetwork(L, sizes)
 
 learning_rate = 0.25
 epochs = 1
-expected = 
+file = open("C:/Users/varun/Python/ACSEF_2021/cars_in_pictures.txt", "r")
+expected = [0]*182
+for i in range(0, 182):
+    expected[i] =  int(file.readline())
 nn.train_network(data, learning_rate, epochs, expected)
