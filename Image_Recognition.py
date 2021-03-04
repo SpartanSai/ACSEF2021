@@ -82,10 +82,11 @@ class NeuralNetwork:
     def train_network(self, train, learning_rate, epochs, expected):
         for epoch in range(0, epochs):
             cost_sum = 0
-            for inp in train:
+            for j in range(0, len(train)):
+                inp = train[j]
                 out = self.forward(inp)
-                expected_out = [0 for i in range(0, len(expected))]
-                cost_sum += sum([(expected_out[i]-out[i])**2 for i in range(0, len(expected_out))])
+                expected_out = expected[j]
+                cost_sum = sum([(expected_out[i]-out[i])**2 for i in range(0, len(expected_out))])
                 self.backward(expected_out)
                 self.update_weights(learning_rate)
                 print(cost_sum)
@@ -93,7 +94,7 @@ class NeuralNetwork:
 data = []
 for i in range(0, 400):
     #image = Image.open("C:/Users/varun/Python/ACSEF_2021/CroppedImages/dutmc_09_1_cropped.png")
-    #image = Image.open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/CroppedImages/dutmc_09_1_cropped.png")
+    image = Image.open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/CroppedImages/dutmc_09_1_cropped.png")
     pixel_values = list(image.getdata())
     real_pixel_values = []*(412368)
     for value in pixel_values:
@@ -104,10 +105,10 @@ L = 4
 sizes = [412368, 10, 20, 10]
 nn = NeuralNetwork(L, sizes)
 
-learning_rate = 0.25
+learning_rate = 0.1
 epochs = 1
 #file = open("C:/Users/varun/Python/ACSEF_2021/cars_in_pictures.txt", "r")
-#file = open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/cars_in_pictures.txt", "r")
+file = open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/cars_in_pictures.txt", "r")
 expected = [[0]*10]*400
 for i in range(0, 400):
     x =  int(file.readline())
