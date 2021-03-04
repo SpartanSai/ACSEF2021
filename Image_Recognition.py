@@ -35,6 +35,10 @@ class NeuralNetwork:
             self.weights[i] = [[0]*sizes[i+1]]*sizes[i]
             self.biases[i] = [0]*sizes[i+1]
             self.network[i] = [0]*sizes[i]
+            self.error[i] = [0]*sizes[i]
+            self.delta[i] = [0]*sizes[i]
+        self.error[L-1] = [0]*sizes[L-1]
+        self.delta[L-1] = [0]*sizes[L-1]
         self.network[L-1] = [0]*sizes[L-1]
 
     def forward(self, inp):
@@ -48,20 +52,23 @@ class NeuralNetwork:
                         self.network[l][i] = (1/(1 + np.exp(-self.network[l][i])))
         return self.network[self.L - 1]
 
-    def derivative(output):
+    def derivative(self, output):
         return (output) * (1 - output)
 
     def backward(self, expected_out):
         for l in reversed(range(1, self.L)):
             if (l == self.L - 1):
                 for i in range(0, self.sizes[l]):
-                    self.error[l][i] = (self.expected_out[i] - self.network[l][i])
+                    self.error[l][i] += (expected_out[i] - self.network[l][i])
             else:
                 for i in range(0, self.sizes[l]):
                     for j in range (0, self.sizes[l+1]):
                         self.error[l][i] += self.weights[l][i][j] * self.delta[l+1][j]
                     self.error[l][i] += self.biases[l-1][i]
             for i in range(0, self.sizes[l]):
+                print(self.error[l][i])
+                print(self.derivative(self.network[l][i]))
+                print(self.delta[l][i])
                 self.delta[l][i] = self.error[l][i] * self.derivative(self.network[l][i])
 
     # 0.25 = learning rate (we will run in batches)
@@ -78,14 +85,14 @@ class NeuralNetwork:
             for inp in train:
                 out = self.forward(inp)
                 expected_out = [0 for i in range(0, len(expected))]
-                expected_out[inp[-1]] = 1
                 cost_sum += sum([(expected_out[i]-out[i])**2 for i in range(0, len(expected_out))])
                 self.backward(expected_out)
                 self.update_weights(learning_rate)
 
 data = []
-for i in range(1, 183):
-    image = Image.open("C:/Users/varun/Python/ACSEF_2021/CroppedImages/dutmc_09_1_cropped.png")
+for i in range(1, 11):
+    #image = Image.open("C:/Users/varun/Python/ACSEF_2021/CroppedImages/dutmc_09_1_cropped.png")
+    image = Image.open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/CroppedImages/dutmc_09_1_cropped.png")
     pixel_values = list(image.getdata())
     real_pixel_values = []*(412368)
     for value in pixel_values:
@@ -98,8 +105,9 @@ nn = NeuralNetwork(L, sizes)
 
 learning_rate = 0.25
 epochs = 1
-file = open("C:/Users/varun/Python/ACSEF_2021/cars_in_pictures.txt", "r")
-expected = [0]*182
-for i in range(0, 182):
+#file = open("C:/Users/varun/Python/ACSEF_2021/cars_in_pictures.txt", "r")
+file = open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/cars_in_pictures.txt", "r")
+expected = [0]*10
+for i in range(0, 10):
     expected[i] =  int(file.readline())
 nn.train_network(data, learning_rate, epochs, expected)
