@@ -88,11 +88,12 @@ class NeuralNetwork:
                 cost_sum += sum([(expected_out[i]-out[i])**2 for i in range(0, len(expected_out))])
                 self.backward(expected_out)
                 self.update_weights(learning_rate)
+                print(cost_sum)
 
 data = []
-for i in range(1, 11):
+for i in range(0, 400):
     #image = Image.open("C:/Users/varun/Python/ACSEF_2021/CroppedImages/dutmc_09_1_cropped.png")
-    image = Image.open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/CroppedImages/dutmc_09_1_cropped.png")
+    #image = Image.open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/CroppedImages/dutmc_09_1_cropped.png")
     pixel_values = list(image.getdata())
     real_pixel_values = []*(412368)
     for value in pixel_values:
@@ -106,8 +107,9 @@ nn = NeuralNetwork(L, sizes)
 learning_rate = 0.25
 epochs = 1
 #file = open("C:/Users/varun/Python/ACSEF_2021/cars_in_pictures.txt", "r")
-file = open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/cars_in_pictures.txt", "r")
-expected = [0]*10
-for i in range(0, 10):
-    expected[i] =  int(file.readline())
+#file = open("/Users/saimonish/IntelliJ_workspace/ACSEF2021/cars_in_pictures.txt", "r")
+expected = [[0]*10]*400
+for i in range(0, 400):
+    x =  int(file.readline())
+    expected[i][x-1] = 1
 nn.train_network(data, learning_rate, epochs, expected)
